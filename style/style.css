@@ -1,0 +1,84 @@
+/* view 1 */
+#main-box {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    height: calc(100vh - 56px);
+    width: 90vw;
+    margin: 0 auto;
+}
+
+#left-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 2fr auto;
+    grid-template-areas:
+        "data icon"
+        "forecast forecast"
+        "air-condition air-condition";
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.data { grid-area: data; display: flex; flex-direction: column; }
+.icon { grid-area: icon; }
+#forecast-7days  { grid-area: forecast; }
+#air-conditions  { grid-area: air-condition; }
+
+#forecast-7days, #air-conditions{
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.icon, .data {
+    text-align: center;
+    padding: 15px;
+}
+
+#forcast-24hours {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#forcast-24hours .table-responsive {
+    flex: 1;
+    height: 0;
+    overflow-y: auto;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.09);
+    padding: 10px;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+td:last-child, th:last-child { text-align: right; }
+
+#forcast-24hours .table-responsive::-webkit-scrollbar { width: 6px; }
+#forcast-24hours .table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}

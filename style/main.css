@@ -1,0 +1,57 @@
+body{
+    background-color: #111f2d;
+    color: aliceblue;
+    margin: 0;
+    align-items: center;
+    height: 100vh; 
+    overflow: hidden;
+    flex-direction: column;
+}
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;}
+    
+.small-box{
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-direction: column;
+}
+/* ----------STATISTIC TABLE(MEAN, MED, MODE.....)---------------*/
+#statistic-box{
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+#statistic-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #4D7CFE;
+}
+.stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-row.surprise {
+    border-bottom: none;
+    color: #00d1ff; 
+    font-weight: bold;
+}

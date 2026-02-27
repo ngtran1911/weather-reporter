@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/wind.css">
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
+    <title>Document</title>
+</head>
+<body>
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Weather Tampere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Temperature</a>    
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="rain.html">Rain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="wind.html">Wind Speed</a> 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+   
+    <div id="main-box-v3">
+        <div id="statistic-box">
+            <h3>7-days Rain Analystics</h3>
+            <div class="stats-list">
+                <div class="stat-row"><span>Mean</span> <b id="rain-mean">--</b></div>
+                <div class="stat-row"><span>Median</span> <b id="rain-median">--</b></div>
+                <div class="stat-row"><span>Mode</span> <b id="rain-mode">--</b></div>
+                <div class="stat-row"><span>Range</span> <b id="rain-range">--</b></div>
+                <div class="stat-row"><span>Std Deviation</span> <b id="rain-std">--</b></div>
+                <div class="stat-row"><span>Min / Max</span> <b id="rain-minmax">--</b></div>
+                <div class="stat-row surprise"><span>Variance (Surprise!)</span> <b id="wind-variance">--</b></div>
+            </div>
+        </div>
+        <div id="right-box">
+            <div class="chart-box">
+                <canvas id="windChart"></canvas>
+            </div>
+            <div class="wind-widgets">
+                <div class="small-box">Wind Status <div id="wind-status">Calm</div></div>
+                <div class="small-box">Wind Chill <div id="wind-chill">0°C</div></div>
+                <div class="small-box">Turbine <div id="turbine-hint">Optimal</div></div>
+                <div class="small-box">Beaufort <div id="beaufort-scale">F1</div></div>
+                <div class="small-box">Max Gust <div id="wind-gust">-- km/h</div></div>
+                <div class="small-box">Safe Activity <div id="activity-hint">Cycling</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

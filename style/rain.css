@@ -1,0 +1,37 @@
+/*----------------* VIEW 2: RAIN*** -------------------------------------------*/
+
+.rain-reporter{
+    display: grid;
+    grid-template-columns: 1fr 2fr  ;
+    gap: 15px;
+    padding: 15px;
+    min-height: 90vh;
+    width: 90vw;
+    margin: 0px auto;
+}
+
+.dynamic-box { grid-area: dynamic; }
+.radar-chart { grid-area: radar; }
+.visibility-box { grid-area: visibility; }
+.clothing-box { grid-area: clothing; }
+
+.right-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        "dynamic dynamic"   
+        "radar radar"       
+        "visibility clothing";
+    gap: 15px;
+}
+
+.left-box{
+    border-radius: 20px;
+    padding: 15px;
+    background:rgba(255, 255, 255, 0.05) ;
+}
+.rain-table p{
+    color: aliceblue;
+    margin: 0;
+}
