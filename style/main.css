@@ -1,6 +1,9 @@
+*{
+    color: #9399a2;
+}
 body{
-    background-color: #111f2d;
-    color: aliceblue;
+    background-color: #0b111d;
+    
     margin: 0;
     align-items: center;
     height: 100vh; 
@@ -11,10 +14,15 @@ body{
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100%;}
+    width: 100%;
+    background-color:rgb(32, 43, 61,0.9) !important ;
+}
+.glass-card{
+    background: rgb(32, 43, 61,0.9);
+}
     
 .small-box{
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(32, 43, 61,0.9);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 15px;
@@ -26,7 +34,7 @@ body{
 }
 /* ----------STATISTIC TABLE(MEAN, MED, MODE.....)---------------*/
 #statistic-box{
-    background: rgba(255, 255, 255, 0.05); 
+    background: rgb(32, 43, 61,0.9); 
     border-radius: 15px;
     padding: 20px;
     display: flex;
@@ -46,6 +54,7 @@ body{
 .stat-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -54,4 +63,8 @@ body{
     border-bottom: none;
     color: #00d1ff; 
     font-weight: bold;
+
+}
+*{
+    color: rgb(240, 248, 255,0.8) !important;
 }

@@ -20,10 +20,10 @@ async function renderForcastWeather() {
     const codes = info.hourly.weather_code;
     const nowTemp = info.current.temperature_2m;
 
-    const currentHour = info.current.time.slice(11,13);
+    const currentHour = parseInt(info.current.time.slice(11,13));
     const isDay = isDayTime(currentHour);
     
-    const start = currentHour;
+    const start = currentHour + 1;
     const from = start !== -1 ? start : 0;
 
     let bodyRows = "";
@@ -55,6 +55,19 @@ async function renderCurrentWeatherConditional() {
     const currentWeatherConditionIcon = getWeatherIcon(code, isDay, 80);
 
     document.getElementById("weather-icon").innerHTML = currentWeatherConditionIcon;
+}
+async function renderAirCondition() {
+    const data = await fetchWeather(URL_AIR_CONDITIONS);
+    const realFealTemp = data.current.apparent_temperature;
+    const chanceOfRain = data.current.precipitation_probability;
+    const windSpeed = data.current.wind_speed_10m;
+    const uv = data.current.uv_index;
+
+    
+    document.getElementById("real-feel").innerHTML= realFealTemp;
+    document.getElementById("rain-chance").innerHTML=chanceOfRain;
+    document.getElementById("wind-speed").innerHTML=windSpeed;
+    document.getElementById("uv-index").innerHTML=uv;
 }
 
 function getWeatherIcon(code, isDay = true, size = 32) {
@@ -94,5 +107,5 @@ function getWeatherIcon(code, isDay = true, size = 32) {
 }
 
 renderForcastWeather();
-
 renderCurrentWeatherConditional();
+renderAirCondition();

@@ -35,3 +35,32 @@
     color: aliceblue;
     margin: 0;
 }
+
+
+.clothing-box h5 {
+    color: #4D7CFE; /* Màu xanh chủ đạo của bạn */
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clothing-box h5::before {
+    content: "👕"; 
+    font-size: 1.2rem;
+}
+
+#clothing-advice {
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+
+
