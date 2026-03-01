@@ -6,19 +6,64 @@
     height: 100%;
     width: 100%;
 }
-
 #left-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 2fr auto;
     grid-template-areas:
-        "data icon"
-        "forecast forecast"
+        "hero          hero"
+        "forecast      forecast"
         "air-condition air-condition";
     gap: 15px;
     min-height: 0;
     overflow-y: auto;
 }
+
+#weather-hero {
+    grid-area: hero;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "data icon";
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(32, 43, 61, 0.9);
+    min-height: 150px;
+    transition: background-image 0.8s ease;
+}
+
+#weather-hero .data {
+    grid-area: data;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#weather-hero .icon {
+    grid-area: icon;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+#weather-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 17, 29, 0.55);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.data { display: flex; flex-direction: column; }
 
 .data { grid-area: data; display: flex; flex-direction: column; }
 .icon { grid-area: icon; }

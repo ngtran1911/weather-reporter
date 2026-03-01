@@ -1,12 +1,45 @@
 console.log("this is temperature.js");
 
+const PEXELS_API_KEY = 'd4mHPfw4NKEJ9xwmZlQvYPCCKnWmO2I59uIusryjhO1Nr2bzA8iuyhp4';
+
 const MEASUREMENTS = [
-    { label: "Temperature", variable: "temperature_2m", unit: "°C" },
-    { label: "Rain", variable: "rain", unit: "mm" },
-    { label: "Wind Speed", variable: "wind_speed_10m", unit: "m/s" },
-    { label: "Humidity", variable: "relative_humidity_2m", unit: "%" },
-    { label: "UV Index", variable: "uv_index", unit: "" },
+    { label: "Temperature", variable: "temperature_2m",        unit: "°C"  },
+    { label: "Rain",        variable: "rain",                  unit: "mm"  },
+    { label: "Wind Speed",  variable: "wind_speed_10m",        unit: "m/s" },
+    { label: "Humidity",    variable: "relative_humidity_2m",  unit: "%"   },
+    { label: "UV Index",    variable: "uv_index",              unit: ""    },
 ];
+
+const WEATHER_ICONS = {
+    0:  { icon: (d) => d ? 'sunny' : 'clear-night',                            alt: 'clear sky'           },
+    1:  { icon: (d) => d ? 'cloudy-clear-times' : 'cloudy-clear-times-night',  alt: 'mainly clear sky'    },
+    2:  { icon: (d) => d ? 'partly-cloudy' : 'partly-cloudy-night',            alt: 'partly cloudy sky'   },
+    3:  { icon: () => 'cloudy',                                                 alt: 'overcast sky'        },
+    45: { icon: () => 'fog',                                                    alt: 'foggy morning'       },
+    48: { icon: () => 'fog',                                                    alt: 'dense fog'           },
+    51: { icon: (d) => d ? 'drizzle-sun' : 'drizzle-night',                    alt: 'light drizzle'       },
+    53: { icon: () => 'drizzle',                                                alt: 'drizzle'             },
+    55: { icon: () => 'drizzle',                                                alt: 'heavy drizzle'       },
+    56: { icon: () => 'drizzle-night',                                          alt: 'freezing drizzle'    },
+    57: { icon: () => 'drizzle-night',                                          alt: 'dense freezing drizzle' },
+    61: { icon: (d) => d ? 'rain-sun' : 'rain-night',                          alt: 'light rain'          },
+    63: { icon: (d) => d ? 'scatterad-showers' : 'scatterad-showers-night',    alt: 'moderate rain'       },
+    65: { icon: () => 'heavy-rain',                                             alt: 'heavy rain'          },
+    66: { icon: () => 'sleet',                                                  alt: 'freezing rain'       },
+    67: { icon: () => 'sleet',                                                  alt: 'heavy freezing rain' },
+    71: { icon: () => 'snow',                                                   alt: 'light snow'          },
+    73: { icon: () => 'snow',                                                   alt: 'snowfall'            },
+    75: { icon: () => 'blizzard',                                               alt: 'heavy snow'          },
+    77: { icon: () => 'hail',                                                   alt: 'snow grains'         },
+    80: { icon: (d) => d ? 'scatterad-showers' : 'scatterad-showers-night',    alt: 'rain shower'         },
+    81: { icon: (d) => d ? 'rain-sun' : 'rain-night',                          alt: 'rain showers'        },
+    82: { icon: () => 'heavy-rain',                                             alt: 'violent rain'        },
+    85: { icon: () => 'blowing-snow',                                           alt: 'snow shower'         },
+    86: { icon: () => 'blizzard',                                               alt: 'heavy snow shower'   },
+    95: { icon: () => 'scatterad-thunderstorm',                                 alt: 'thunderstorm'        },
+    96: { icon: () => 'rain-thunderstorm',                                      alt: 'thunderstorm hail'   },
+    99: { icon: () => 'sever-thunder',                                          alt: 'severe thunderstorm' },
+};
 
 let tempChart = null;
 
@@ -15,44 +48,41 @@ function isDayTime(hour) {
 }
 
 function getWeatherIcon(code, isDay = true, size = 32) {
-    const WEATHER_ICONS = {
-        0: { icon: isDay ? 'sunny' : 'clear-night', alt: 'Clear sky' },
-        1: { icon: isDay ? 'cloudy-clear-times' : 'cloudy-clear-times-night', alt: 'Mainly clear' },
-        2: { icon: isDay ? 'partly-cloudy' : 'partly-cloudy-night', alt: 'Partly cloudy' },
-        3: { icon: 'cloudy', alt: 'Overcast' },
-        45: { icon: 'fog', alt: 'Fog' },
-        48: { icon: 'fog', alt: 'Depositing rime fog' },
-        51: { icon: isDay ? 'drizzle-sun' : 'drizzle-night', alt: 'Light drizzle' },
-        53: { icon: 'drizzle', alt: 'Moderate drizzle' },
-        55: { icon: 'drizzle', alt: 'Dense drizzle' },
-        56: { icon: 'drizzle-night', alt: 'Light freezing drizzle' },
-        57: { icon: 'drizzle-night', alt: 'Dense freezing drizzle' },
-        61: { icon: isDay ? 'rain-sun' : 'rain-night', alt: 'Slight rain' },
-        63: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night', alt: 'Moderate rain' },
-        65: { icon: 'heavy-rain', alt: 'Heavy rain' },
-        66: { icon: 'sleet', alt: 'Light freezing rain' },
-        67: { icon: 'sleet', alt: 'Heavy freezing rain' },
-        71: { icon: 'snow', alt: 'Slight snow fall' },
-        73: { icon: 'snow', alt: 'Moderate snow fall' },
-        75: { icon: 'blizzard', alt: 'Heavy snow fall' },
-        77: { icon: 'hail', alt: 'Snow grains' },
-        80: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night', alt: 'Slight rain showers' },
-        81: { icon: isDay ? 'rain-sun' : 'rain-night', alt: 'Moderate rain showers' },
-        82: { icon: 'heavy-rain', alt: 'Violent rain showers' },
-        85: { icon: 'blowing-snow', alt: 'Slight snow showers' },
-        86: { icon: 'blizzard', alt: 'Heavy snow showers' },
-        95: { icon: 'scatterad-thunderstorm', alt: 'Thunderstorm' },
-        96: { icon: 'rain-thunderstorm', alt: 'Thunderstorm with slight hail' },
-        99: { icon: 'sever-thunder', alt: 'Thunderstorm with heavy hail' },
-    };
-    const { icon, alt } = WEATHER_ICONS[code] ?? { icon: 'cloudy', alt: 'Unknown' };
+    const entry = WEATHER_ICONS[code] ?? { icon: () => 'cloudy', alt: 'Unknown' };
+    const icon = entry.icon(isDay);
+    const alt = entry.alt;
     return `<img src="assets/weather/${icon}.png" alt="${alt}" title="${alt}" width="${size}" height="${size}"/>`;
 }
 
-function renderCurrentConditions(current, isDay) {
+async function fetchWeatherBackground(keyword) {
+    try {
+        const response = await fetch(
+            `https://api.pexels.com/v1/search?query=${encodeURIComponent(keyword)}&per_page=5&orientation=landscape`,
+            { headers: { Authorization: PEXELS_API_KEY } }
+        );
+        const data = await response.json();
+        if (!data.photos?.length) return null;
+        const random = data.photos[Math.floor(Math.random() * data.photos.length)];
+        return random.src.large;
+    } catch {
+        return null;
+    }
+}
+
+async function applyWeatherBackground(code, isDay) {
+    const alt = (WEATHER_ICONS[code] ?? { alt: 'sky weather' }).alt;
+    const keyword = isDay ? alt : `${alt} night dark`;
+    const imageUrl = await fetchWeatherBackground(keyword);
+    const hero = document.getElementById('weather-hero');
+    if (!hero || !imageUrl) return;
+    hero.style.backgroundImage = `url('${imageUrl}')`;
+}
+
+async function renderCurrentConditions(current, isDay) {
     setElementText('current-temp', `${current.temperature_2m}°C`);
     const iconEl = document.getElementById('weather-icon');
     if (iconEl) iconEl.innerHTML = getWeatherIcon(current.weather_code, isDay, 80);
+    await applyWeatherBackground(current.weather_code, isDay);
 }
 
 function renderForecast(daily) {
@@ -69,10 +99,10 @@ function renderForecast(daily) {
 }
 
 function renderAirConditions(current) {
-    setElementText('real-feel', current.apparent_temperature);
+    setElementText('real-feel',   current.apparent_temperature);
     setElementText('rain-chance', current.precipitation_probability);
-    setElementText('wind-speed', current.wind_speed_10m);
-    setElementText('uv-index', current.uv_index);
+    setElementText('wind-speed',  current.wind_speed_10m);
+    setElementText('uv-index',    current.uv_index);
 }
 
 function renderTable(times, values, unit) {
@@ -107,11 +137,7 @@ function renderChart(times, values, label) {
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: {
-                        maxTicksLimit: 8,
-                        maxRotation: 45,
-                        minRotation: 0
-                    }
+                    ticks: { maxTicksLimit: 8, maxRotation: 45, minRotation: 0 }
                 },
                 y: { beginAtZero: false }
             }
@@ -123,7 +149,6 @@ async function updateInteractiveView() {
     const measurement = MEASUREMENTS.find(m => m.variable === document.getElementById('measurement-select').value);
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
-
     if (!startDate || !endDate || !measurement) return;
 
     const url = `https://archive-api.open-meteo.com/v1/archive?latitude=61.4991&longitude=23.7871`
@@ -133,17 +158,16 @@ async function updateInteractiveView() {
     const data = await fetchWeather(url);
     if (!data) return;
 
-    const times = data.hourly.time;
-    const values = data.hourly[measurement.variable];
-
-    renderTable(times, values, measurement.unit);
-    renderChart(times, values, `${measurement.label} (${measurement.unit})`);
+    renderTable(data.hourly.time, data.hourly[measurement.variable], measurement.unit);
+    renderChart(data.hourly.time, data.hourly[measurement.variable], `${measurement.label} (${measurement.unit})`);
 }
 
 function initControls() {
     const select = document.getElementById('measurement-select');
     const startDate = document.getElementById('start-date');
     const endDate = document.getElementById('end-date');
+    const today = new Date().toISOString().slice(0, 10);
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
     if (select) {
         select.innerHTML = MEASUREMENTS.map(m =>
@@ -152,11 +176,8 @@ function initControls() {
         select.addEventListener('change', updateInteractiveView);
     }
 
-    const today = new Date().toISOString().slice(0, 10);
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-
     if (startDate) { startDate.value = weekAgo; startDate.max = today; startDate.addEventListener('change', updateInteractiveView); }
-    if (endDate) { endDate.value = today; endDate.max = today; endDate.addEventListener('change', updateInteractiveView); }
+    if (endDate)   { endDate.value = today;     endDate.max = today;   endDate.addEventListener('change', updateInteractiveView); }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -166,10 +187,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const currentHour = parseInt(data.current.time.slice(11, 13));
     const isDay = isDayTime(currentHour);
 
-    renderCurrentConditions(data.current, isDay);
+    await renderCurrentConditions(data.current, isDay);
     renderForecast(data.daily);
     renderAirConditions(data.current);
-
     initControls();
     await updateInteractiveView();
 });
