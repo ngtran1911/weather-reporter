@@ -1,5 +1,15 @@
 console.log("this is temperature.js");
 
+const MEASUREMENTS = [
+    { label: "Temperature",   variable: "temperature_2m",       unit: "°C"   },
+    { label: "Rain",          variable: "rain",                  unit: "mm"   },
+    { label: "Wind Speed",    variable: "wind_speed_10m",        unit: "m/s"  },
+    { label: "Humidity",      variable: "relative_humidity_2m",  unit: "%"    },
+    { label: "UV Index",      variable: "uv_index",              unit: ""     },
+];
+
+let tempChart = null;
+
 function isDayTime(hour) {
     return hour >= 6 && hour < 17;
 }
@@ -35,7 +45,6 @@ function getWeatherIcon(code, isDay = true, size = 32) {
         96: { icon: 'rain-thunderstorm',                                        alt: 'Thunderstorm with slight hail' },
         99: { icon: 'sever-thunder',                                            alt: 'Thunderstorm with heavy hail' },
     };
-
     const { icon, alt } = WEATHER_ICONS[code] ?? { icon: 'cloudy', alt: 'Unknown' };
     return `<img src="assets/weather/${icon}.png" alt="${alt}" title="${alt}" width="${size}" height="${size}"/>`;
 }
@@ -46,28 +55,9 @@ function renderCurrentConditions(current, isDay) {
     if (iconEl) iconEl.innerHTML = getWeatherIcon(current.weather_code, isDay, 80);
 }
 
-function renderHourlyTable(hourly, currentHour, isDay) {
-    const from = Math.max(0, currentHour - 20);
-
-    let bodyRows = "";
-    for (let i = from; i < currentHour; i++) {
-        bodyRows += `<tr>
-            <td>${hourly.time[i].slice(11, 16)}</td>
-            <td>${getWeatherIcon(hourly.weather_code[i], isDay)}</td>
-            <td>${hourly.temperature_2m[i]}°C</td>
-        </tr>`;
-    }
-
-    const thead = document.querySelector("#forcast-24hours thead tr");
-    if (thead) thead.innerHTML = "<th>Time</th><th>Condition</th><th>Temp</th>";
-    const tbody = document.getElementById("weather-table-body");
-    if (tbody) tbody.innerHTML = bodyRows;
-}
-
 function renderForecast(daily) {
     const container = document.getElementById("table-7days-forcast");
     if (!container) return;
-
     container.innerHTML = daily.time.map((date, i) => {
         const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
         return `<div class="forecast-item">
@@ -79,10 +69,87 @@ function renderForecast(daily) {
 }
 
 function renderAirConditions(current) {
-    setElementText('real-feel',  current.apparent_temperature);
+    setElementText('real-feel',   current.apparent_temperature);
     setElementText('rain-chance', current.precipitation_probability);
-    setElementText('wind-speed', current.wind_speed_10m);
-    setElementText('uv-index',   current.uv_index);
+    setElementText('wind-speed',  current.wind_speed_10m);
+    setElementText('uv-index',    current.uv_index);
+}
+
+function renderTable(times, values, unit) {
+    const thead = document.querySelector("#forcast-24hours thead tr");
+    const tbody = document.getElementById("weather-table-body");
+    if (thead) thead.innerHTML = `<th>Time</th><th>Value</th>`;
+    if (tbody) tbody.innerHTML = times.map((t, i) =>
+        `<tr><td>${t.slice(11, 16)}</td><td>${values[i] ?? '--'} ${unit}</td></tr>`
+    ).join('');
+}
+
+function renderChart(times, values, label) {
+    const canvas = document.getElementById('measurement-chart');
+    if (!canvas) return;
+    if (tempChart) tempChart.destroy();
+    tempChart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels: times.map(t => t.slice(11, 16) || t.slice(0, 10)),
+            datasets: [{
+                label,
+                data: values,
+                borderColor: "#4D7CFE",
+                backgroundColor: "rgba(77, 124, 254, 0.1)",
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: false },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+async function updateInteractiveView() {
+    const measurement = MEASUREMENTS.find(m => m.variable === document.getElementById('measurement-select').value);
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+
+    if (!startDate || !endDate || !measurement) return;
+
+    const url = `https://archive-api.open-meteo.com/v1/archive?latitude=61.4991&longitude=23.7871`
+        + `&hourly=${measurement.variable}&timezone=auto`
+        + `&start_date=${startDate}&end_date=${endDate}`;
+
+    const data = await fetchWeather(url);
+    if (!data) return;
+
+    const times = data.hourly.time;
+    const values = data.hourly[measurement.variable];
+
+    renderTable(times, values, measurement.unit);
+    renderChart(times, values, `${measurement.label} (${measurement.unit})`);
+}
+
+function initControls() {
+    const select = document.getElementById('measurement-select');
+    const startDate = document.getElementById('start-date');
+    const endDate = document.getElementById('end-date');
+
+    if (select) {
+        select.innerHTML = MEASUREMENTS.map(m =>
+            `<option value="${m.variable}">${m.label}</option>`
+        ).join('');
+        select.addEventListener('change', updateInteractiveView);
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+    if (startDate) { startDate.value = weekAgo; startDate.max = today; startDate.addEventListener('change', updateInteractiveView); }
+    if (endDate)   { endDate.value = today;    endDate.max = today;   endDate.addEventListener('change', updateInteractiveView); }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -93,7 +160,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isDay = isDayTime(currentHour);
 
     renderCurrentConditions(data.current, isDay);
-    renderHourlyTable(data.hourly, currentHour, isDay);
     renderForecast(data.daily);
     renderAirConditions(data.current);
+
+    initControls();
+    await updateInteractiveView();
 });

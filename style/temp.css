@@ -181,3 +181,31 @@ td {
 }
 
 td:last-child, th:last-child { text-align: right; }
+
+.interactive-controls select,
+.interactive-controls input[type="date"] {
+    background: rgba(32, 43, 61, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(240, 248, 255, 0.8);
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.interactive-controls select option {
+    background: #1a2535;
+    color: rgba(240, 248, 255, 0.8);
+}
+
+.interactive-controls select:focus,
+.interactive-controls input[type="date"]:focus {
+    outline: none;
+    border-color: #4D7CFE;
+}
+
+.chart-wrapper {
+    height: 180px;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
