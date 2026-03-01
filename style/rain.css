@@ -12,11 +12,10 @@
 .right-box {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-rows: 150px 1fr 120px;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas: 
         "radar    radar"   
-        "dynamic  dynamic"
-        "visibility clothing";
+        "dynamic  dynamic";
     gap: 15px;
     min-height: 0;
 }
