@@ -467,11 +467,9 @@ tr:hover {
     }
 
     #left-box {
-        display: flex;
-        flex-direction: column;
         overflow: visible;
         height: auto;
-        gap: 15px;
+        grid-template-rows: auto auto auto;
     }
 
     #forecast-7days,
@@ -479,7 +477,6 @@ tr:hover {
     #forcast-24hours {
         height: auto;
         overflow: visible;
-        width: 100%;
     }
 
     .air-details-grid {
