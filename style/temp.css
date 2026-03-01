@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 15px;
-    padding: 15px;
     height: 100%;
     width: 100%;
     min-height: 0;
@@ -13,138 +12,8 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-        "hero          hero"
-        "forecast      forecast"
-        "air-condition air-condition";
-    gap: 15px;
-    min-height: 0;
-    overflow: hidden;
-}
-
-/* ---- Weather Hero ---- */
-
-#weather-hero {
-    grid-area: hero;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "data icon";
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-color: rgba(32, 43, 61, 0.9);
-    min-height: 140px;
-    flex-shrink: 0;
-    transition: background-image 0.8s ease;
-}
-
-#weather-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(11, 17, 29, 0.55);
-    z-index: 0;
-    pointer-events: none;
-}
-
-#weather-hero .data {
-    grid-area: data;
-    position: relative;
-    z-index: 1;
-    text-align: left;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-}
-
-#weather-hero .icon {
-    grid-area: icon;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-}
-
-#weather-hero h2 {
-    margin: 0;
-    line-height: 1.2;
-}
-
-/* ---- 7-day forecast ---- */
-
-#forecast-7days {
-    grid-area: forecast;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
-}
-
-#forecast-7days h3 {
-    font-size: 1rem;
-    color: #4D7CFE;
-    padding: 12px 15px 8px;
-    margin: 0;
-    flex-shrink: 0;
-}
-
-.forecast-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px 10px;
-    flex: 1;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.forecast-container::-webkit-scrollbar { height: 3px; }
-.forecast-container::-webkit-scrollbar-track { background: transparent; }
-.forecast-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-}
-
-.forecast-item {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 4px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-}
-
-.forecast-item:not(:last-child) {
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-#main-box {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 15px;
-    padding: 15px;
-    height: 100%;
-    width: 100%;
-    min-height: 0;
-}
-
-#left-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-        "hero          hero"
-        "forecast      forecast"
+        "hero hero"
+        "forecast forecast"
         "air-condition air-condition";
     gap: 15px;
     min-height: 0;
@@ -162,8 +31,7 @@
     background-size: cover;
     background-position: center;
     background-color: rgba(32, 43, 61, 0.9);
-    min-height: 140px;
-    flex-shrink: 0;
+    min-height: 160px;
     transition: background-image 0.8s ease;
 }
 
@@ -451,7 +319,8 @@ td {
     font-size: 0.85rem;
 }
 
-td:last-child, th:last-child {
+td:last-child,
+th:last-child {
     text-align: right;
 }
 
@@ -463,7 +332,6 @@ tr:hover {
     #main-box {
         grid-template-columns: 1fr;
         height: auto;
-        padding: 10px;
     }
 
     #left-box {

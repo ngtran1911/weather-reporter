@@ -36,6 +36,7 @@ body.loading::after {
     background-color: rgba(32, 43, 61, 0.9) !important;
     width: 100%;
     flex-shrink: 0;
+    padding: 10px 40px;
 }
 
 /* ---- Page content ---- */
@@ -43,9 +44,8 @@ body.loading::after {
 .page-content {
     flex: 1;
     min-height: 0;
-    padding: 0 15px;
     display: flex;
-    margin: 10px 10px;
+    margin: 10px 40px;
 }
 
 /* ---- Cards ---- */
@@ -144,7 +144,6 @@ body.loading::after {
     #main-box {
         grid-template-columns: 1fr;
         height: auto;
-        padding: 10px;
         gap: 10px;
     }
 
