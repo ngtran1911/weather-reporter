@@ -12,12 +12,20 @@
 .right-box {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 250px auto 1fr;
     grid-template-areas: 
-        "radar    radar"   
-        "dynamic  dynamic";
+        "radar   radar"
+        "controls controls"
+        "dynamic dynamic";
     gap: 15px;
     min-height: 0;
+}
+
+#timespan-controls {
+    grid-area: controls;
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
 .radar-chart    { grid-area: radar;       min-height: 0; overflow: hidden; }
