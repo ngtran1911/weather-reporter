@@ -1,31 +1,92 @@
-#main-box-v3{
+/*----------------* VIEW 3: WIND -------------------------------------------*/
+
+#main-box-v3 {
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 15px;
-    padding: 15px;
-    width: 90vw;
-    margin: 0 auto;
-    min-height: 90vh
+    height: 100%;
+    width: 100%;
 }
 
 #right-box {
     display: grid;
-    grid-template-rows: 1.5fr 1fr; 
+    grid-template-rows: 250px 1fr;
     gap: 15px;
+    min-height: 0;
 }
+
+/* ---- Chart box ---- */
 
 .chart-box {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(32, 43, 61, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
 }
 
-.wind-widgets {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
+.chart-box canvas {
+    width: 100% !important;
+    height: 100% !important;
 }
+
+/* ---- Table box ---- */
+
+.table-box {
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.table-box h5 {
+    color: #4D7CFE;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+/* ---- Wind table ---- */
+
+.wind-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    width: 100%;
+}
+
+.wind-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.wind-table th {
+    color: #4D7CFE;
+    text-align: left;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background: rgba(32, 43, 61, 0.95);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.wind-table td {
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wind-table tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.wind-calm   { color: rgba(240, 248, 255, 0.4); }
+.wind-light  { color: #63b3ed; }
+.wind-strong { color: #4D7CFE; font-weight: bold; }
