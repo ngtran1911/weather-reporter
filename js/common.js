@@ -1,14 +1,18 @@
 console.log("this is common.js")
 
-const BASE_URL = "https://api.open-meteo.com/v1/";
-const URL_TEMP = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&hourly=temperature_2m,weather_code&current=temperature_2m&timezone=auto&forecast_days=2`;
-const URL_CURRENT_WEATHER = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=weather_code&timezone=auto`;
-const URL_7_DAYS_FORECAST = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=temperature_2m_mean,weather_code&timezone=auto`
-const URL_AIR_CONDITIONS = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=apparent_temperature,wind_speed_10m,precipitation_probability,uv_index&timezone=auto&forecast_days=3`;
-const URL_RAIN_STATUS = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=rain_sum&timezone=auto`
-const URL_VISIBILITY = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=visibility&timezone=auto`
-const URL_WIND_STATISTIC = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=wind_speed_10m_max,wind_gusts_10m_max&timezone=auto`
-const URL_WIND_CHART = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&hourly=wind_speed_10m,wind_gusts_10m&wind_speed_unit=ms&timezone=auto&forecast_days=1`
+const BASE_URL = "https://api.open-meteo.com/v1";
+const PAST = "past_days=7&forecast_days=0";
+
+const URL_TEMP = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&${PAST}&hourly=temperature_2m,weather_code&current=temperature_2m&timezone=auto`;
+const URL_CURRENT_WEATHER = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=weather_code&timezone=auto&${PAST}`;
+const URL_7_DAYS_FORECAST = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=temperature_2m_mean,weather_code&timezone=auto&${PAST}`;
+const URL_AIR_CONDITIONS = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=apparent_temperature,wind_speed_10m,precipitation_probability,uv_index&timezone=auto&${PAST}`;
+const URL_RAIN_STATUS = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=rain_sum&timezone=auto&${PAST}`;
+const URL_VISIBILITY = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&current=visibility&timezone=auto&${PAST}`;
+const URL_WIND_STATISTIC = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=wind_speed_10m_max,wind_gusts_10m_max&timezone=auto&${PAST}`;
+const URL_WIND_CHART = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&hourly=wind_speed_10m,wind_gusts_10m&wind_speed_unit=ms&timezone=auto&${PAST}`;
+const URL_RAIN_CHART = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&hourly=rain&timezone=auto&past_days=1&forecast_days=0`;
+
 async function fetchWeather(url) {
     console.log('Fetching ....')
     const response = await fetch(url);

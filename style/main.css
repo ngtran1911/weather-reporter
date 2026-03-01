@@ -1,50 +1,73 @@
-*{
-    color: #9399a2;
+/* ---- Reset & Base ---- */
+
+* {
+    box-sizing: border-box;
+    color: rgba(240, 248, 255, 0.8);
 }
-body{
+
+body {
     background-color: #0b111d;
-    
     margin: 0;
-    align-items: center;
-    height: 100vh; 
+    height: 100vh;
     overflow: hidden;
+    display: flex;
     flex-direction: column;
 }
+
+/* ---- Navbar ---- */
+
 .navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
+    background-color: rgba(32, 43, 61, 0.9) !important;
     width: 100%;
-    background-color:rgb(32, 43, 61,0.9) !important ;
+    flex-shrink: 0;
 }
-.glass-card{
-    background: rgb(32, 43, 61,0.9);
+
+/* ---- Page content ---- */
+
+.page-content {
+    flex: 1;
+    min-height: 0;
+    padding: 15px;
+    display: flex;
 }
-    
-.small-box{
-    background: rgb(32, 43, 61,0.9);
+
+/* ---- Cards ---- */
+
+.glass-card {
+    background: rgba(32, 43, 61, 0.9);
+}
+
+.small-box {
+    background: rgba(32, 43, 61, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     flex-direction: column;
+    min-height: 0;
 }
-/* ----------STATISTIC TABLE(MEAN, MED, MODE.....)---------------*/
-#statistic-box{
-    background: rgb(32, 43, 61,0.9); 
+
+/* ---- Statistics Box ---- */
+
+#statistic-box {
+    background: rgba(32, 43, 61, 0.9);
     border-radius: 15px;
     padding: 20px;
     display: flex;
     flex-direction: column;
 }
+
 #statistic-box h3 {
     font-size: 1.2rem;
     margin-bottom: 15px;
     color: #4D7CFE;
 }
+
 .stats-list {
     display: flex;
     flex-direction: column;
@@ -61,10 +84,6 @@ body{
 
 .stat-row.surprise {
     border-bottom: none;
-    color: #00d1ff; 
+    color: #00d1ff;
     font-weight: bold;
-
-}
-*{
-    color: rgb(240, 248, 255,0.8) !important;
 }

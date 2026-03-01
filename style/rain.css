@@ -1,44 +1,99 @@
-/*----------------* VIEW 2: RAIN*** -------------------------------------------*/
+/*----------------* VIEW 2: RAIN -------------------------------------------*/
 
-.rain-reporter{
+.rain-reporter {
     display: grid;
-    grid-template-columns: 1fr 2fr  ;
+    grid-template-columns: 1fr 2fr;
     gap: 15px;
-    padding: 15px;
-    min-height: 90vh;
-    width: 90vw;
-    margin: 0px auto;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
 }
 
-.dynamic-box { grid-area: dynamic; }
-.radar-chart { grid-area: radar; }
-.visibility-box { grid-area: visibility; }
-.clothing-box { grid-area: clothing; }
-
-.right-box{
+.right-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 250px 1fr 120px;
     grid-template-areas: 
-        "dynamic dynamic"   
-        "radar radar"       
+        "radar    radar"   
+        "dynamic  dynamic"
         "visibility clothing";
     gap: 15px;
+    min-height: 0;
 }
 
-.left-box{
-    border-radius: 20px;
-    padding: 15px;
-    background:rgba(255, 255, 255, 0.05) ;
-}
-.rain-table p{
-    color: aliceblue;
-    margin: 0;
+.radar-chart    { grid-area: radar;       min-height: 0; overflow: hidden; }
+.dynamic-box    { grid-area: dynamic;     min-height: 0; overflow: hidden; }
+.visibility-box { grid-area: visibility;  min-height: 0; }
+.clothing-box   { grid-area: clothing;    min-height: 0; }
+
+/* ---- Chart box ---- */
+
+.radar-chart {
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 10px;
 }
 
+.radar-chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ---- Dynamic / table box ---- */
+
+.dynamic-box {
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dynamic-box h5 {
+    color: #4D7CFE;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+/* ---- Rain table ---- */
+
+.rain-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.rain-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.rain-table th {
+    color: #4D7CFE;
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background: rgba(32, 43, 61, 0.95);
+}
+
+.rain-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rain-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---- Clothing box ---- */
 
 .clothing-box h5 {
-    color: #4D7CFE; /* Màu xanh chủ đạo của bạn */
+    color: #4D7CFE;
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -49,18 +104,14 @@
 }
 
 .clothing-box h5::before {
-    content: "👕"; 
-    font-size: 1.2rem;
+    content: "👕";
+    font-size: 1.3rem;
 }
 
 #clothing-advice {
-    color: #e2e8f0;
     font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
     font-style: italic;
     opacity: 0.9;
 }
-
-
-

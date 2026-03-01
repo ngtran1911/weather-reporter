@@ -1,68 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style/rain.css">
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
-    
     <title>Rain reporter</title>
 </head>
+
 <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">Weather Tampere</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Temperature</a>    
+                        <a class="nav-link" href="index.html">Temperature</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="rain.html">Rain</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="wind.html">Wind Speed</a> 
+                        <a class="nav-link" href="wind.html">Wind Speed</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-   
-    <div class="rain-reporter">
-        <div id="statistic-box">
-            <h3>7-days Rain Analystics</h3>
-            <div class="stats-list">
 
-                <div class="stat-row"><span>Mean</span> <b id="rain-mean">--</b></div>
-                <div class="stat-row"><span>Median</span> <b id="rain-median">--</b></div>
-                <div class="stat-row"><span>Mode</span> <b id="rain-mode">--</b></div>
-                <div class="stat-row"><span>Range</span> <b id="rain-range">--</b></div>
-                <div class="stat-row"><span>Std Deviation</span> <b id="rain-std">--</b></div>
-                <div class="stat-row"><span>Min / Max</span> <b id="rain-minmax">--</b></div>
-                <div class="stat-row surprise"><span>Variance (Surprise!)</span> <b id="rain-variance">--</b></div>
+    <div class="page-content">
+        <div class="rain-reporter">
+
+            <div id="statistic-box">
+                <h3>7-days Rain Analytics</h3>
+                <div class="stats-list">
+                    <div class="stat-row"><span>Mean</span> <b id="rain-mean">--</b></div>
+                    <div class="stat-row"><span>Median</span> <b id="rain-median">--</b></div>
+                    <div class="stat-row"><span>Mode</span> <b id="rain-mode">--</b></div>
+                    <div class="stat-row"><span>Range</span> <b id="rain-range">--</b></div>
+                    <div class="stat-row"><span>Std Deviation</span> <b id="rain-std">--</b></div>
+                    <div class="stat-row"><span>Min / Max</span> <b id="rain-minmax">--</b></div>
+                    <div class="stat-row surprise"><span>Variance (Surprise!)</span> <b id="rain-variance">--</b></div>
+                </div>
             </div>
+
+            <div class="right-box">
+                <div class="small-box radar-chart">
+                    <canvas id="rainChart"></canvas>
+                </div>
+                <div class="small-box dynamic-box">
+                    <h5>Hourly Rain</h5>
+                    <div class="rain-table-wrapper">
+                        <table class="rain-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Rain (mm)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rain-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="small-box visibility-box">
+                    <h5>Visibility</h5>
+                    <p id="visibility-value"></p>
+                    <span id="visibility-status">checking...</span>
+                </div>
+                <div class="small-box clothing-box">
+                    <h5>Clothing suggestion</h5>
+                    <p id="clothing-advice"></p>
+                </div>
+            </div>
+
         </div>
-        <div class="right-box">
-            <div class="small-box dynamic-box">Dynamic Ui</div>
-            <div class="small-box radar-chart">Radar Chart</div>
-            <div class="small-box visibility-box">
-                <h5>Visibility</h5>
-                <p id="visibility-value"></p>  
-                <span id="visibility-status">checking...</span>  
-            </div>
-            <div class="small-box clothing-box">
-                <h5>Clothing suggestion</h5>
-                <p id="clothing-advice"></p>
-            </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="js/rain.js"></script>
 </body>
+
 </html>

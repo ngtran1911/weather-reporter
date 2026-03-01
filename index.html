@@ -36,75 +36,78 @@
         </div>
     </nav>
 
+    <div class="page-content">
 
-    <div id="main-box">
-        <div id="left-box">
-            <div class="data">
-                <div class="location">
-                    <h2>Tampere</h2>
+
+        <div id="main-box">
+            <div id="left-box">
+                <div class="data">
+                    <div class="location">
+                        <h2>Tampere</h2>
+                    </div>
+                    <div class="temp">
+                        <h2 id="current-temp">---</h2>
+                    </div>
                 </div>
-                <div class="temp">
-                    <h2 id="current-temp">---</h2>
+
+                <div class="icon" id="weather-icon"></div>
+
+                <div id="forecast-7days" class="glass-card">
+                    <h3>Next 7 Days</h3>
+                    <div id="forecast-list">
+                        <div id="table-7days-forcast" class="forecast-container"></div>
+                    </div>
+                </div>
+
+                <div id="air-conditions" class="glass-card">
+                    <div class="air-header">
+                        <h3>AIR CONDITIONS</h3>
+                    </div>
+
+                    <div class="air-details-grid">
+                        <div class="air-item">
+                            <div class="item-label">
+                                <i class="wi wi-thermometer"></i> <span>Real Feel</span>
+                            </div>
+                            <div class="item-value"><span id="real-feel">--</span>°</div>
+                        </div>
+
+                        <div class="air-item">
+                            <div class="item-label">
+                                <i class="wi wi-strong-wind"></i> <span>Wind</span>
+                            </div>
+                            <div class="item-value"><span id="wind-speed">--</span> km/h</div>
+                        </div>
+
+                        <div class="air-item">
+                            <div class="item-label">
+                                <i class="wi wi-raindrop"></i> <span>Chance of rain</span>
+                            </div>
+                            <div class="item-value"><span id="rain-chance">0</span>%</div>
+                        </div>
+
+                        <div class="air-item">
+                            <div class="item-label">
+                                <i class="wi wi-day-sunny"></i> <span>UV Index</span>
+                            </div>
+                            <div class="item-value"><span id="uv-index">--</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="icon" id="weather-icon"></div>
-
-            <div id="forecast-7days" class="glass-card">
-                <h3>Next 7 Days</h3>
-                <div id="forecast-list">
-                    <div id="table-7days-forcast" class="forecast-container"></div>
-                </div>
-            </div>
-
-            <div id="air-conditions" class="glass-card">
-                <div class="air-header">
-                    <h3>AIR CONDITIONS</h3>
-                </div>
-
-                <div class="air-details-grid">
-                    <div class="air-item">
-                        <div class="item-label">
-                            <i class="wi wi-thermometer"></i> <span>Real Feel</span>
-                        </div>
-                        <div class="item-value"><span id="real-feel">--</span>°</div>
+            <div id="forcast-24hours" class="glass-card">
+                <h3>Last 20 Hours</h3>
+                <div class="table-responsive">
+                    <div id="temp-list-24" class="scrollable-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                </tr>
+                            </thead>
+                            <tbody id="weather-table-body"></tbody>
+                        </table>
                     </div>
-
-                    <div class="air-item">
-                        <div class="item-label">
-                            <i class="wi wi-strong-wind"></i> <span>Wind</span>
-                        </div>
-                        <div class="item-value"><span id="wind-speed">--</span> km/h</div>
-                    </div>
-
-                    <div class="air-item">
-                        <div class="item-label">
-                            <i class="wi wi-raindrop"></i> <span>Chance of rain</span>
-                        </div>
-                        <div class="item-value"><span id="rain-chance">0</span>%</div>
-                    </div>
-
-                    <div class="air-item">
-                        <div class="item-label">
-                            <i class="wi wi-day-sunny"></i> <span>UV Index</span>
-                        </div>
-                        <div class="item-value"><span id="uv-index">--</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="forcast-24hours" class="glass-card">
-            <h3>Today forcast</h3>
-            <div class="table-responsive">
-                <div id="temp-list-24" class="scrollable-content">
-                    <table>
-                        <thead>
-                            <tr>
-                            </tr>
-                        </thead>
-                        <tbody id="weather-table-body"></tbody>
-                    </table>
                 </div>
             </div>
         </div>

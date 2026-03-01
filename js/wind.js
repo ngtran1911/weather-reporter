@@ -53,7 +53,7 @@ function updateWindWidgets(currentTemp, windSpeedMs, windGustMs) {
 } 
 async function renderWindChart() {
     const data = await fetchWeather(URL_WIND_CHART);
-    const hours = data.hourly.time.map(time => time.slice(11,13));
+    const hours = data.hourly.time.map(time => time.slice(11,15));
     const windSpeed = data.hourly.wind_speed_10m;
     const xValue = hours;
     const yValue = windSpeed;
