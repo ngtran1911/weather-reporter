@@ -78,9 +78,11 @@
 
             <div id="forcast-24hours" class="glass-card">
                 <div class="interactive-controls">
-                    <select id="measurement-select"></select>
-                    <input type="date" id="start-date">
-                    <input type="date" id="end-date">
+                    <select id="measurement-select" aria-label="Select measurement"></select>
+                    <div class="date-range">
+                        <label for="start-date">From <input type="date" id="start-date"></label>
+                        <label for="end-date">To <input type="date" id="end-date"></label>
+                    </div>
                 </div>
                 <div class="chart-wrapper">
                     <canvas id="measurement-chart"></canvas>

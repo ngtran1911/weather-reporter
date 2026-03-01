@@ -19,12 +19,15 @@ const URL_WIND = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871`
 
 async function fetchWeather(url) {
     try {
+        document.body.classList.add('loading');
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         return await response.json();
     } catch (error) {
         console.error(`Failed to fetch: ${url}`, error);
         return null;
+    } finally {
+        document.body.classList.remove('loading');
     }
 }
 

@@ -14,6 +14,19 @@ body {
     flex-direction: column;
 }
 
+body.loading::after {
+    content: "Loading...";
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4D7CFE;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    z-index: 9999;
+}
+
 /* ---- Navbar ---- */
 
 .navbar {
