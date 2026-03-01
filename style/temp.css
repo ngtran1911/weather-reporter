@@ -5,19 +5,23 @@
     padding: 15px;
     height: 100%;
     width: 100%;
+    min-height: 0;
 }
+
 #left-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 2fr auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
         "hero          hero"
         "forecast      forecast"
         "air-condition air-condition";
     gap: 15px;
     min-height: 0;
-    overflow-y: auto;
+    overflow: hidden;
 }
+
+/* ---- Weather Hero ---- */
 
 #weather-hero {
     grid-area: hero;
@@ -30,8 +34,18 @@
     background-size: cover;
     background-position: center;
     background-color: rgba(32, 43, 61, 0.9);
-    min-height: 150px;
+    min-height: 140px;
+    flex-shrink: 0;
     transition: background-image 0.8s ease;
+}
+
+#weather-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 17, 29, 0.55);
+    z-index: 0;
+    pointer-events: none;
 }
 
 #weather-hero .data {
@@ -43,6 +57,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 4px;
 }
 
 #weather-hero .icon {
@@ -54,45 +69,129 @@
     justify-content: center;
     padding: 15px;
 }
-#weather-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(11, 17, 29, 0.55);
-    z-index: 0;
-    pointer-events: none;
+
+#weather-hero h2 {
+    margin: 0;
+    line-height: 1.2;
 }
 
-.data { display: flex; flex-direction: column; }
+/* ---- 7-day forecast ---- */
 
-.data { grid-area: data; display: flex; flex-direction: column; }
-.icon { grid-area: icon; }
-#forecast-7days { grid-area: forecast; }
-#air-conditions { grid-area: air-condition; }
-
-.icon, .data {
-    text-align: center;
-    padding: 15px;
+#forecast-7days {
+    grid-area: forecast;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
 }
 
-/* ---- 24h table (right column) ---- */
+#forecast-7days h3 {
+    font-size: 1rem;
+    color: #4D7CFE;
+    padding: 12px 15px 8px;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.forecast-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 10px;
+    flex: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.forecast-container::-webkit-scrollbar { height: 3px; }
+.forecast-container::-webkit-scrollbar-track { background: transparent; }
+.forecast-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.forecast-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.forecast-item:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#air-conditions {
+    grid-area: air-condition;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.air-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.air-header h3 {
+    font-size: 0.75rem;
+    color: #4D7CFE;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.air-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.air-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #9399a2;
+    font-size: 0.8rem;
+}
+
+.item-value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: rgba(240, 248, 255, 0.8);
+    padding-left: 20px;
+}
+
+/* ---- Right column ---- */
 
 #forcast-24hours {
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 15px;
-    text-align: center;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     min-height: 0;
-}
-
-#forcast-24hours h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: #4D7CFE;
-    flex-shrink: 0;
 }
 
 #forcast-24hours .table-responsive {
@@ -111,135 +210,19 @@
     border-radius: 10px;
 }
 
-/* ---- 7-day forecast ---- */
-
-#forecast-7days {
-    max-height: 200px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-#forecast-7days h3 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: #4D7CFE;
-    padding: 15px 15px 0;
-}
-
-.forecast-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.forecast-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.forecast-item {
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 12px;
-}
-
-/* ---- Air conditions ---- */
-
-#air-conditions {
-    max-height: 200px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-.air-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.air-header h3 {
-    font-size: 1.2rem;
-    color: #4D7CFE;
-    letter-spacing: 1px;
-}
-
-.air-details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 100%;
-}
-
-.air-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.item-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #9399a2;
-    font-size: 0.9rem;
-}
-
-.item-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: rgba(240, 248, 255, 0.8);
-    padding-left: 25px;
-}
-
-/* ---- Table ---- */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    padding: 12px 8px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: #4D7CFE;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-td {
-    padding: 12px 8px;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(240, 248, 255, 0.8);
-}
-
-td:last-child, th:last-child { text-align: right; }
-
 .interactive-controls {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     width: 100%;
     min-width: 0;
+    flex-shrink: 0;
 }
 
 .date-range {
     display: flex;
     align-items: center;
-    gap: 8px;
     background: rgba(32, 43, 61, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -289,6 +272,7 @@ td:last-child, th:last-child { text-align: right; }
 .interactive-controls select:focus,
 .interactive-controls input[type="date"]:focus {
     outline: none;
+    border-color: #4D7CFE;
 }
 
 .interactive-controls select option {
@@ -296,8 +280,81 @@ td:last-child, th:last-child { text-align: right; }
     color: rgba(240, 248, 255, 0.8);
 }
 
+/* ---- Chart ---- */
+
 .chart-wrapper {
-    height: 180px;
+    height: 160px;
     flex-shrink: 0;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+}
+
+/* ---- Table ---- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #4D7CFE;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    background: rgba(32, 43, 61, 0.95);
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(240, 248, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+td:last-child, th:last-child { text-align: right; }
+
+tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+/* ---- Responsive ---- */
+
+@media (max-width: 768px) {
+    #main-box {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 10px;
+    }
+
+    #left-box {
+        overflow: visible;
+        height: auto;
+        grid-template-rows: auto auto auto;
+    }
+
+    #forecast-7days,
+    #air-conditions,
+    #forcast-24hours {
+        height: auto;
+        overflow: visible;
+    }
+
+    #forcast-24hours .table-responsive {
+        max-height: 250px;
+    }
+
+    .chart-wrapper { height: 200px; }
+
+    .interactive-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .date-range {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
 }

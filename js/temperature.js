@@ -92,7 +92,7 @@ function renderForecast(daily) {
         const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
         return `<div class="forecast-item">
             <span class="day">${dayName}</span>
-            <span class="icon">${getWeatherIcon(daily.weather_code[i], true, 32)}</span>
+            <span class="icon">${getWeatherIcon(daily.weather_code[i], true, 50)}</span>
             <span class="degree"><b>${daily.temperature_2m_mean[i]}°C</b></span>
         </div>`;
     }).join('');
