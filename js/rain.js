@@ -89,6 +89,9 @@ async function update() {
         + `&past_days=${activeTimespan.pastDays}&forecast_days=0`;
     const data = await fetchWeather(url);
     if (!data) return;
+
+    setElementText('stats-title', `Rain Analytics — ${activeTimespan.label}`);
+
     renderRainStats(data.daily.rain_sum);
     const { labels, values: rainAmount } = getLastHours(data.hourly.time, data.hourly.rain, activeTimespan.hours);
     renderRainChart(labels, rainAmount);

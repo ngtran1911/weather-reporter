@@ -91,6 +91,9 @@ async function update() {
         + `&past_days=${activeTimespan.pastDays}&forecast_days=0`;
     const data = await fetchWeather(url);
     if (!data) return;
+
+    setElementText('stats-title', `Wind Analytics — ${activeTimespan.label}`);
+    
     renderWindStats(data.daily.wind_speed_10m_max);
     const { labels, values: windSpeed } = getLastHours(data.hourly.time, data.hourly.wind_speed_10m, activeTimespan.hours);
     renderWindChart(labels, windSpeed);
