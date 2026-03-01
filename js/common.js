@@ -17,11 +17,16 @@ const URL_RAIN_CHART = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&
 const URL_WIND = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=wind_speed_10m_max,wind_gusts_10m_max&hourly=wind_speed_10m,wind_gusts_10m&wind_speed_unit=ms&timezone=auto&${PAST}`;
 
 async function fetchWeather(url) {
-    console.log('Fetching ....')
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error(`Failed to fetch: ${url}`, error);
+        return null;
+    }
 }
+
 function calculateStatistics(numbers) {
     if (numbers.length === 0) return {};
     const sorted = [...numbers].sort((a, b) => a - b);
