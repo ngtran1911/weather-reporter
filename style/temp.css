@@ -1,8 +1,8 @@
-/* view 1 */
 #main-box {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 15px;
+    padding: 15px;
     height: 100%;
     width: 100%;
 }
@@ -16,33 +16,43 @@
         "forecast forecast"
         "air-condition air-condition";
     gap: 15px;
+    min-height: 0;
     overflow-y: auto;
 }
 
 .data { grid-area: data; display: flex; flex-direction: column; }
 .icon { grid-area: icon; }
-#forecast-7days  { grid-area: forecast; }
-#air-conditions  { grid-area: air-condition; }
+#forecast-7days { grid-area: forecast; }
+#air-conditions { grid-area: air-condition; }
 
 .icon, .data {
     text-align: center;
     padding: 15px;
 }
 
+/* ---- 24h table (right column) ---- */
+
 #forcast-24hours {
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     padding: 15px;
-    box-sizing: border-box;
     text-align: center;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 0;
+}
+
+#forcast-24hours h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #4D7CFE;
+    flex-shrink: 0;
 }
 
 #forcast-24hours .table-responsive {
     flex: 1;
-    height: 0;
+    min-height: 0;
     overflow-y: auto;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.05);
@@ -50,45 +60,56 @@
     width: 100%;
 }
 
- #air-conditions{
-    max-height: 200px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#forcast-24hours .table-responsive::-webkit-scrollbar { width: 6px; }
+#forcast-24hours .table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }
-/*-----------7 days weather forecast*/
-#forecast-7days{
+
+/* ---- 7-day forecast ---- */
+
+#forecast-7days {
     max-height: 200px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    
 }
+
+#forecast-7days h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #4D7CFE;
+    padding: 15px 15px 0;
+}
+
 .forecast-container {
-    display: flex; 
-    justify-content: space-between; 
-    padding: 0px 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
+
 .forecast-container::-webkit-scrollbar-track {
     background: transparent;
 }
 
 .forecast-item {
-    display: flex; 
+    display: flex;
     flex: 0 0 auto;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;
     border-radius: 12px;
 }
 
-/* -------------AIR CONDITION BOX --------------*/
+/* ---- Air conditions ---- */
+
 #air-conditions {
+    max-height: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -102,9 +123,8 @@
 }
 
 .air-header h3 {
-    font-size: 0.8rem;
-    color: #9399a2;
-    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: #4D7CFE;
     letter-spacing: 1px;
 }
 
@@ -132,27 +152,32 @@
 .item-value {
     font-size: 1.5rem;
     font-weight: bold;
-    color: white;
-    padding-left: 25px; /* Để thẳng hàng với text bên trên icon */
+    color: rgba(240, 248, 255, 0.8);
+    padding-left: 25px;
 }
 
-/*----------right table----------*/
+/* ---- Table ---- */
+
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
-th, td {
+th {
     padding: 12px 8px;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #4D7CFE;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(240, 248, 255, 0.8);
 }
 
 td:last-child, th:last-child { text-align: right; }
-
-#forcast-24hours .table-responsive::-webkit-scrollbar { width: 6px; }
-#forcast-24hours .table-responsive::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-}
