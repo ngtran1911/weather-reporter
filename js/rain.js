@@ -71,20 +71,32 @@ async function renderRainChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                title: { display: true, text: "Hourly Rain (last 20 hours)" }
+            legend: { display: false },
+            title: { display: true, text: "Hourly Rain (last 20 hours)" },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        min: 0
+                    }
+                }]
             }
         }
     });
 
     const tbody = document.getElementById('rain-table-body');
-    tbody.innerHTML = labels.map((time, i) => `
-        <tr>
-            <td>${time}</td>
-            <td>${rainAmount[i] ?? 0} mm</td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = labels.map((time, i) => {
+        const mm = rainAmount[i] ?? 0;
+        let rainClass = 'rain-none';
+        let icon = '—';
+        if (mm > 2) { rainClass = 'rain-heavy'; icon = '🌧️'; }
+        else if (mm > 0) { rainClass = 'rain-light'; icon = '🌦️'; }
+
+        return `<tr>
+        <td>${time}</td>
+        <td class="${rainClass}">${icon} ${mm} mm</td>
+    </tr>`;
+    }).join('');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

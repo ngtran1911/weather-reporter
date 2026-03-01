@@ -12,7 +12,7 @@
 .right-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 250px 1fr 120px;
+    grid-template-rows: 150px 1fr 120px;
     grid-template-areas: 
         "radar    radar"   
         "dynamic  dynamic"
@@ -29,17 +29,17 @@
 /* ---- Chart box ---- */
 
 .radar-chart {
+    grid-area: radar;
+    min-height: 0;
+    overflow: hidden;
     align-items: stretch;
     justify-content: stretch;
-    padding: 10px;
 }
 
 .radar-chart canvas {
     width: 100% !important;
     height: 100% !important;
 }
-
-/* ---- Dynamic / table box ---- */
 
 .dynamic-box {
     align-items: stretch;
@@ -48,46 +48,44 @@
     overflow: hidden;
 }
 
-.dynamic-box h5 {
-    color: #4D7CFE;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    flex-shrink: 0;
-}
-
-/* ---- Rain table ---- */
-
 .rain-table-wrapper {
     flex: 1;
     overflow-y: auto;
     min-height: 0;
+    width: 100%;
 }
 
 .rain-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .rain-table th {
     color: #4D7CFE;
     text-align: left;
-    padding: 6px 10px;
+    padding: 8px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
     background: rgba(32, 43, 61, 0.95);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .rain-table td {
-    padding: 5px 10px;
+    padding: 8px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* color code rain amounts */
+.rain-table td.rain-none  { color: rgba(240, 248, 255, 0.4); }
+.rain-table td.rain-light { color: #63b3ed; }
+.rain-table td.rain-heavy { color: #4D7CFE; font-weight: bold; }
+
 .rain-table tr:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 /* ---- Clothing box ---- */
