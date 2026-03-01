@@ -1,29 +1,41 @@
 console.log("hello rain.js");
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const [pageData, chartData] = await Promise.all([
-        fetchWeather(URL_RAIN_PAGE),
-        fetchWeather(URL_RAIN_CHART)
-    ]);
+function renderRainStats(dailyRain) {
+    const stats = calculateStatistics(dailyRain);
+    renderStatistics({
+        mean:     'rain-mean',
+        median:   'rain-median',
+        mode:     'rain-mode',
+        range:    'rain-range',
+        std:      'rain-std',
+        minmax:   'rain-minmax',
+        variance: 'rain-variance'
+    }, stats, 'mm');
+}
 
-    const stats = calculateStatistics(pageData.daily.rain_sum);
-    document.getElementById('rain-mean').innerText = `${stats.mean} mm`;
-    document.getElementById('rain-median').innerText = `${stats.median} mm`;
-    document.getElementById('rain-mode').innerText = stats.mode === "N/A" ? "0 mm" : `${stats.mode} mm`;
-    document.getElementById('rain-range').innerText = `${stats.range} mm`;
-    document.getElementById('rain-std').innerText = stats.stdDev;
-    document.getElementById('rain-minmax').innerText = `${stats.minMax} mm`;
-    document.getElementById('rain-variance').innerText = stats.variance;
+function renderRainTable(labels, rainAmount) {
+    const tbody = document.getElementById('rain-table-body');
+    if (!tbody) return;
 
-    const allHours = chartData.hourly.time;
-    const allRain = chartData.hourly.rain;
-    const currentIndex = allHours.length - 1;
-    const start = Math.max(0, currentIndex - 19);
+    tbody.innerHTML = labels.map((time, i) => {
+        const mm = rainAmount[i] ?? 0;
+        let cls = 'rain-none';
+        let icon = '—';
+        if (mm > 2)      { cls = 'rain-heavy'; icon = '🌧️'; }
+        else if (mm > 0) { cls = 'rain-light'; icon = '🌦️'; }
 
-    const labels = allHours.slice(start, currentIndex).map(t => t.slice(11, 16));
-    const rainAmount = allRain.slice(start, currentIndex);
+        return `<tr>
+            <td>${time}</td>
+            <td class="${cls}">${icon} ${mm} mm</td>
+        </tr>`;
+    }).join('');
+}
 
-    new Chart(document.getElementById('rainChart'), {
+function renderRainChart(labels, rainAmount) {
+    const canvas = document.getElementById('rainChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
         type: "bar",
         data: {
             labels,
@@ -41,23 +53,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             legend: { display: false },
             title: { display: true, text: "Hourly Rain (last 20 hours)" },
             scales: {
-                yAxes: [{
-                    ticks: { beginAtZero: true, min: 0 }
-                }]
+                yAxes: [{ ticks: { beginAtZero: true, min: 0 } }]
             }
         }
     });
+}
 
-    document.getElementById('rain-table-body').innerHTML = labels.map((time, i) => {
-        const mm = rainAmount[i] ?? 0;
-        let rainClass = 'rain-none';
-        let icon = '—';
-        if (mm > 2)      { rainClass = 'rain-heavy'; icon = '🌧️'; }
-        else if (mm > 0) { rainClass = 'rain-light'; icon = '🌦️'; }
+function getLastHours(hourlyTime, hourlyValues, count = 20) {
+    const currentIndex = hourlyTime.length - 1;
+    const start = Math.max(0, currentIndex - count);
+    const labels = hourlyTime.slice(start, currentIndex).map(t => t.slice(11, 16));
+    const values = hourlyValues.slice(start, currentIndex);
+    return { labels, values };
+}
 
-        return `<tr>
-            <td>${time}</td>
-            <td class="${rainClass}">${icon} ${mm} mm</td>
-        </tr>`;
-    }).join('');
+document.addEventListener('DOMContentLoaded', async () => {
+    const [pageData, chartData] = await Promise.all([
+        fetchWeather(URL_RAIN_PAGE),
+        fetchWeather(URL_RAIN_CHART)
+    ]);
+
+    if (!pageData || !chartData) return;
+
+    renderRainStats(pageData.daily.rain_sum);
+
+    const { labels, values: rainAmount } = getLastHours(chartData.hourly.time, chartData.hourly.rain);
+    renderRainChart(labels, rainAmount);
+    renderRainTable(labels, rainAmount);
 });

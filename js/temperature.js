@@ -1,9 +1,5 @@
 console.log("this is temperature.js");
 
-function getCurrentHour() {
-    return new Date().getHours();
-}
-
 function isDayTime(hour) {
     return hour >= 6 && hour < 17;
 }
@@ -44,52 +40,60 @@ function getWeatherIcon(code, isDay = true, size = 32) {
     return `<img src="assets/weather/${icon}.png" alt="${alt}" title="${alt}" width="${size}" height="${size}"/>`;
 }
 
-function forecastTemplate(day, temperature, iconHtml) {
-    return `
-        <div class="forecast-item">
-            <span class="day">${day}</span>
-            <span class="icon">${iconHtml}</span>
-            <span class="degree"><b>${temperature}°C</b></span>
-        </div>
-    `;
+function renderCurrentConditions(current, isDay) {
+    setElementText('current-temp', `${current.temperature_2m}°C`);
+    const iconEl = document.getElementById('weather-icon');
+    if (iconEl) iconEl.innerHTML = getWeatherIcon(current.weather_code, isDay, 80);
+}
+
+function renderHourlyTable(hourly, currentHour, isDay) {
+    const from = Math.max(0, currentHour - 20);
+
+    let bodyRows = "";
+    for (let i = from; i < currentHour; i++) {
+        bodyRows += `<tr>
+            <td>${hourly.time[i].slice(11, 16)}</td>
+            <td>${getWeatherIcon(hourly.weather_code[i], isDay)}</td>
+            <td>${hourly.temperature_2m[i]}°C</td>
+        </tr>`;
+    }
+
+    const thead = document.querySelector("#forcast-24hours thead tr");
+    if (thead) thead.innerHTML = "<th>Time</th><th>Condition</th><th>Temp</th>";
+    const tbody = document.getElementById("weather-table-body");
+    if (tbody) tbody.innerHTML = bodyRows;
+}
+
+function renderForecast(daily) {
+    const container = document.getElementById("table-7days-forcast");
+    if (!container) return;
+
+    container.innerHTML = daily.time.map((date, i) => {
+        const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
+        return `<div class="forecast-item">
+            <span class="day">${dayName}</span>
+            <span class="icon">${getWeatherIcon(daily.weather_code[i], true, 32)}</span>
+            <span class="degree"><b>${daily.temperature_2m_mean[i]}°C</b></span>
+        </div>`;
+    }).join('');
+}
+
+function renderAirConditions(current) {
+    setElementText('real-feel',  current.apparent_temperature);
+    setElementText('rain-chance', current.precipitation_probability);
+    setElementText('wind-speed', current.wind_speed_10m);
+    setElementText('uv-index',   current.uv_index);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     const data = await fetchWeather(URL_TEMPERATURE_PAGE);
+    if (!data) return;
 
     const currentHour = parseInt(data.current.time.slice(11, 13));
     const isDay = isDayTime(currentHour);
 
-    document.getElementById("current-temp").innerHTML = `${data.current.temperature_2m}°C`;
-    document.getElementById("weather-icon").innerHTML = getWeatherIcon(data.current.weather_code, isDay, 80);
-
-    const hours = data.hourly.time;
-    const temps = data.hourly.temperature_2m;
-    const codes = data.hourly.weather_code;
-
-    const from = currentHour - 20;
-    const start = from >= 0 ? from : 0;
-
-    let bodyRows = "";
-    for (let i = start; i < currentHour; i++) {
-        bodyRows += `<tr>
-            <td>${hours[i].slice(11, 16)}</td>
-            <td>${getWeatherIcon(codes[i], isDay)}</td>
-            <td>${temps[i]}°C</td>
-        </tr>`;
-    }
-    document.querySelector("#forcast-24hours thead tr").innerHTML = "<th>Time</th><th>Condition</th><th>Temp</th>";
-    document.getElementById("weather-table-body").innerHTML = bodyRows;
-
-    let daysForecast = "";
-    for (let i = 0; i < data.daily.time.length; i++) {
-        const dayName = new Date(data.daily.time[i]).toLocaleDateString("en-US", { weekday: "short" });
-        daysForecast += forecastTemplate(dayName, data.daily.temperature_2m_mean[i], getWeatherIcon(data.daily.weather_code[i], true, 32));
-    }
-    document.getElementById("table-7days-forcast").innerHTML = daysForecast;
-
-    document.getElementById("real-feel").innerHTML = data.current.apparent_temperature;
-    document.getElementById("rain-chance").innerHTML = data.current.precipitation_probability;
-    document.getElementById("wind-speed").innerHTML = data.current.wind_speed_10m;
-    document.getElementById("uv-index").innerHTML = data.current.uv_index;
+    renderCurrentConditions(data.current, isDay);
+    renderHourlyTable(data.hourly, currentHour, isDay);
+    renderForecast(data.daily);
+    renderAirConditions(data.current);
 });

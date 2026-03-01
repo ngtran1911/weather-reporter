@@ -1,32 +1,40 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const data = await fetchWeather(URL_WIND);
+console.log("hello wind.js");
 
-    const stats = calculateStatistics(data.daily.wind_speed_10m_max);
-    document.getElementById('wind-mean').innerText = `${stats.mean} m/s`;
-    document.getElementById('wind-median').innerText = `${stats.median} m/s`;
-    document.getElementById('wind-mode').innerText = stats.mode === "N/A" ? "N/A" : `${stats.mode} m/s`;
-    document.getElementById('wind-range').innerText = `${stats.range} m/s`;
-    document.getElementById('wind-std').innerText = stats.stdDev;
-    document.getElementById('wind-minmax').innerText = stats.minMax;
-    document.getElementById('wind-variance').innerText = stats.variance;
+function renderWindStats(dailyWind) {
+    const stats = calculateStatistics(dailyWind);
+    renderStatistics({
+        mean:     'wind-mean',
+        median:   'wind-median',
+        mode:     'wind-mode',
+        range:    'wind-range',
+        std:      'wind-std',
+        minmax:   'wind-minmax',
+        variance: 'wind-variance'
+    }, stats, 'm/s');
+}
 
-    const allHours = data.hourly.time;
-    const allWind = data.hourly.wind_speed_10m;
-    const currentIndex = allHours.length - 1;
-    const start = Math.max(0, currentIndex - 19);
+function renderWindTable(labels, windSpeed) {
+    const tbody = document.getElementById('wind-table-body');
+    if (!tbody) return;
 
-    const labels = allHours.slice(start, currentIndex).map(t => t.slice(11, 16));
-    const windSpeed = allWind.slice(start, currentIndex);
-
-    document.getElementById('wind-table-body').innerHTML = labels.map((time, i) => {
+    tbody.innerHTML = labels.map((time, i) => {
         const ms = windSpeed[i]?.toFixed(1) ?? '--';
         let cls = 'wind-calm';
         if (windSpeed[i] > 10)     cls = 'wind-strong';
         else if (windSpeed[i] > 3) cls = 'wind-light';
-        return `<tr><td>${time}</td><td class="${cls}">${ms} m/s</td></tr>`;
-    }).join('');
 
-    new Chart(document.getElementById('windChart'), {
+        return `<tr>
+            <td>${time}</td>
+            <td class="${cls}">${ms} m/s</td>
+        </tr>`;
+    }).join('');
+}
+
+function renderWindChart(labels, windSpeed) {
+    const canvas = document.getElementById('windChart');
+    if (!canvas) return;
+
+    new Chart(canvas, {
         type: "line",
         data: {
             labels,
@@ -48,4 +56,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+}
+
+function getLastHours(hourlyTime, hourlyValues, count = 20) {
+    const currentIndex = hourlyTime.length - 1;
+    const start = Math.max(0, currentIndex - count);
+    const labels = hourlyTime.slice(start, currentIndex).map(t => t.slice(11, 16));
+    const values = hourlyValues.slice(start, currentIndex);
+    return { labels, values };
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const data = await fetchWeather(URL_WIND);
+    if (!data) return;
+
+    renderWindStats(data.daily.wind_speed_10m_max);
+
+    const { labels, values: windSpeed } = getLastHours(data.hourly.time, data.hourly.wind_speed_10m);
+    renderWindChart(labels, windSpeed);
+    renderWindTable(labels, windSpeed);
 });
