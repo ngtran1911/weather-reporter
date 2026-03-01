@@ -7,7 +7,8 @@ const URL_TEMPERATURE_PAGE = `${BASE_URL}/forecast?latitude=61.4991&longitude=23
     + `&current=temperature_2m,weather_code,apparent_temperature,wind_speed_10m,precipitation_probability,uv_index`
     + `&hourly=temperature_2m,weather_code`
     + `&daily=temperature_2m_mean,weather_code`
-    + `&timezone=auto&${PAST}`;
+    + `&timezone=auto&past_days=7&forecast_days=8`;;
+
 
 const URL_RAIN_PAGE  = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&daily=rain_sum&timezone=auto&${PAST}`;
 const URL_RAIN_CHART = `${BASE_URL}/forecast?latitude=61.4991&longitude=23.7871&hourly=rain&timezone=auto&past_days=1&forecast_days=0`;

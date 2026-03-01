@@ -88,12 +88,19 @@ async function renderCurrentConditions(current, isDay) {
 function renderForecast(daily) {
     const container = document.getElementById("table-7days-forcast");
     if (!container) return;
-    container.innerHTML = daily.time.map((date, i) => {
-        const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
+
+    const today = new Date().toISOString().slice(0, 10);
+    const todayIndex = daily.time.findIndex(d => d === today);
+    if (todayIndex === -1) return;
+
+    container.innerHTML = daily.time.slice(todayIndex + 1, todayIndex + 8).map((date, i) => {
+        const [year, month, day] = date.split('-').map(Number);
+        const dayName = new Date(year, month - 1, day).toLocaleDateString("en-US", { weekday: "short" });
+        const dataIndex = todayIndex + 1 + i;
         return `<div class="forecast-item">
             <span class="day">${dayName}</span>
-            <span class="icon">${getWeatherIcon(daily.weather_code[i], true, 50)}</span>
-            <span class="degree"><b>${daily.temperature_2m_mean[i]}°C</b></span>
+            <span class="icon">${getWeatherIcon(daily.weather_code[dataIndex], true, 50)}</span>
+            <span class="degree"><b>${daily.temperature_2m_mean[dataIndex]}°C</b></span>
         </div>`;
     }).join('');
 }
