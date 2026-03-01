@@ -42,6 +42,7 @@ async function updateVisibilityUI() {
     if (valueElem) {
         valueElem.innerText = `${km.toFixed(1)} km`;
     }
+    console.log("type of  "+ km + typeof(km));
 
     let statusText = "";
     let statusColor = "";
@@ -50,20 +51,24 @@ async function updateVisibilityUI() {
     if (km >= 10) {
         statusText = "Clear View";
         statusColor = "#00ff88"; 
+        console.log("clear view ")
     } else if (km >= 5) {
         statusText = "Hazy";
         statusColor = "#ffcc00"; 
+        console.log("yellow")
     } else {
         statusText = "Foggy / Heavy Snow";
         statusColor = "#ff4d4d"; 
-    }
+        console.log("red");
 
+    }
     const statusElem = document.getElementById('visibility-status');
     if (statusElem) {
-        statusElem.innerText = statusText;
-        statusElem.style.color = statusColor;
-        console.log("Color changed to:", statusColor); 
-    }
+    statusElem.innerText = statusText;
+    statusElem.style.setProperty('color', statusColor, 'important'); 
+    console.log("Color changed to:", statusColor); 
+}
+    
 }
 
 document.addEventListener('DOMContentLoaded', () => {

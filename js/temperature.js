@@ -56,6 +56,38 @@ async function renderCurrentWeatherConditional() {
 
     document.getElementById("weather-icon").innerHTML = currentWeatherConditionIcon;
 }
+
+
+async function handle7DaysForecast() {
+    const data = await fetchWeather(URL_7_DAYS_FORECAST);
+    const dayInAWeek = data.daily.time;
+    const dailyMeanTemp = data.daily.temperature_2m_mean;
+    const weatherCode = data.daily.weather_code;
+
+    let daysForecast = ""; 
+    for (let i = 0; i < dayInAWeek.length; i++) {
+        const date = new Date(dayInAWeek[i]);
+        const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+        daysForecast += forecastTemplate(dayName, dailyMeanTemp[i], getWeatherIcon(weatherCode[i], true, 32));
+    }
+
+    document.getElementById("table-7days-forcast").innerHTML = daysForecast;
+}
+
+function forecastTemplate(day, temperature, iconHtml) {
+    return `
+        <div class="forecast-item">
+            <span class="day">${day}</span>
+            <span class="icon">
+                ${iconHtml}
+            </span>
+            <span class="degree">
+                <b>${temperature}°C</b>
+            </span>
+        </div>
+    `;
+}
+
 async function renderAirCondition() {
     const data = await fetchWeather(URL_AIR_CONDITIONS);
     const realFealTemp = data.current.apparent_temperature;
@@ -109,3 +141,4 @@ function getWeatherIcon(code, isDay = true, size = 32) {
 renderForcastWeather();
 renderCurrentWeatherConditional();
 renderAirCondition();
+handle7DaysForecast();
