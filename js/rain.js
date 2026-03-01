@@ -1,9 +1,9 @@
 const TIMESPANS = [
-    { label: "Now",     pastDays: 1,  hours: 20  },
-    { label: "24h",     pastDays: 1,  hours: 24  },
-    { label: "48h",     pastDays: 2,  hours: 48  },
-    { label: "72h",     pastDays: 3,  hours: 72  },
-    { label: "1 Week",  pastDays: 7,  hours: 168 },
+    { label: "Now", pastDays: 1, hours: 20 },
+    { label: "24h", pastDays: 1, hours: 24 },
+    { label: "48h", pastDays: 2, hours: 48 },
+    { label: "72h", pastDays: 3, hours: 72 },
+    { label: "1 Week", pastDays: 7, hours: 168 },
     { label: "1 Month", pastDays: 30, hours: 720 },
 ];
 
@@ -25,9 +25,16 @@ function renderRainTable(labels, rainAmount) {
     tbody.innerHTML = labels.map((time, i) => {
         const mm = rainAmount[i] ?? 0;
         let cls = 'rain-none', icon = '—';
-        if (mm > 2)      { cls = 'rain-heavy'; icon = '🌧️'; }
-        else if (mm > 0) { cls = 'rain-light'; icon = '🌦️'; }
-        return `<tr><td>${time}</td><td class="${cls}">${icon} ${mm} mm</td></tr>`;
+        if (mm > 2) {
+            cls = 'rain-heavy'; icon = '🌧️';
+        }
+        else if (mm > 0) {
+            cls = 'rain-light'; icon = '🌦️';
+        }
+        return `<tr>
+                <td>${time}</td>
+                <td class="${cls}">${icon} ${mm} mm</td>
+            </tr>`;
     }).join('');
 }
 

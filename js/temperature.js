@@ -1,11 +1,11 @@
 console.log("this is temperature.js");
 
 const MEASUREMENTS = [
-    { label: "Temperature",   variable: "temperature_2m",       unit: "°C"   },
-    { label: "Rain",          variable: "rain",                  unit: "mm"   },
-    { label: "Wind Speed",    variable: "wind_speed_10m",        unit: "m/s"  },
-    { label: "Humidity",      variable: "relative_humidity_2m",  unit: "%"    },
-    { label: "UV Index",      variable: "uv_index",              unit: ""     },
+    { label: "Temperature", variable: "temperature_2m", unit: "°C" },
+    { label: "Rain", variable: "rain", unit: "mm" },
+    { label: "Wind Speed", variable: "wind_speed_10m", unit: "m/s" },
+    { label: "Humidity", variable: "relative_humidity_2m", unit: "%" },
+    { label: "UV Index", variable: "uv_index", unit: "" },
 ];
 
 let tempChart = null;
@@ -16,34 +16,34 @@ function isDayTime(hour) {
 
 function getWeatherIcon(code, isDay = true, size = 32) {
     const WEATHER_ICONS = {
-        0:  { icon: isDay ? 'sunny' : 'clear-night',                           alt: 'Clear sky' },
-        1:  { icon: isDay ? 'cloudy-clear-times' : 'cloudy-clear-times-night', alt: 'Mainly clear' },
-        2:  { icon: isDay ? 'partly-cloudy' : 'partly-cloudy-night',           alt: 'Partly cloudy' },
-        3:  { icon: 'cloudy',                                                   alt: 'Overcast' },
-        45: { icon: 'fog',                                                      alt: 'Fog' },
-        48: { icon: 'fog',                                                      alt: 'Depositing rime fog' },
-        51: { icon: isDay ? 'drizzle-sun' : 'drizzle-night',                   alt: 'Light drizzle' },
-        53: { icon: 'drizzle',                                                  alt: 'Moderate drizzle' },
-        55: { icon: 'drizzle',                                                  alt: 'Dense drizzle' },
-        56: { icon: 'drizzle-night',                                            alt: 'Light freezing drizzle' },
-        57: { icon: 'drizzle-night',                                            alt: 'Dense freezing drizzle' },
-        61: { icon: isDay ? 'rain-sun' : 'rain-night',                         alt: 'Slight rain' },
-        63: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night',   alt: 'Moderate rain' },
-        65: { icon: 'heavy-rain',                                               alt: 'Heavy rain' },
-        66: { icon: 'sleet',                                                    alt: 'Light freezing rain' },
-        67: { icon: 'sleet',                                                    alt: 'Heavy freezing rain' },
-        71: { icon: 'snow',                                                     alt: 'Slight snow fall' },
-        73: { icon: 'snow',                                                     alt: 'Moderate snow fall' },
-        75: { icon: 'blizzard',                                                 alt: 'Heavy snow fall' },
-        77: { icon: 'hail',                                                     alt: 'Snow grains' },
-        80: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night',   alt: 'Slight rain showers' },
-        81: { icon: isDay ? 'rain-sun' : 'rain-night',                         alt: 'Moderate rain showers' },
-        82: { icon: 'heavy-rain',                                               alt: 'Violent rain showers' },
-        85: { icon: 'blowing-snow',                                             alt: 'Slight snow showers' },
-        86: { icon: 'blizzard',                                                 alt: 'Heavy snow showers' },
-        95: { icon: 'scatterad-thunderstorm',                                   alt: 'Thunderstorm' },
-        96: { icon: 'rain-thunderstorm',                                        alt: 'Thunderstorm with slight hail' },
-        99: { icon: 'sever-thunder',                                            alt: 'Thunderstorm with heavy hail' },
+        0: { icon: isDay ? 'sunny' : 'clear-night', alt: 'Clear sky' },
+        1: { icon: isDay ? 'cloudy-clear-times' : 'cloudy-clear-times-night', alt: 'Mainly clear' },
+        2: { icon: isDay ? 'partly-cloudy' : 'partly-cloudy-night', alt: 'Partly cloudy' },
+        3: { icon: 'cloudy', alt: 'Overcast' },
+        45: { icon: 'fog', alt: 'Fog' },
+        48: { icon: 'fog', alt: 'Depositing rime fog' },
+        51: { icon: isDay ? 'drizzle-sun' : 'drizzle-night', alt: 'Light drizzle' },
+        53: { icon: 'drizzle', alt: 'Moderate drizzle' },
+        55: { icon: 'drizzle', alt: 'Dense drizzle' },
+        56: { icon: 'drizzle-night', alt: 'Light freezing drizzle' },
+        57: { icon: 'drizzle-night', alt: 'Dense freezing drizzle' },
+        61: { icon: isDay ? 'rain-sun' : 'rain-night', alt: 'Slight rain' },
+        63: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night', alt: 'Moderate rain' },
+        65: { icon: 'heavy-rain', alt: 'Heavy rain' },
+        66: { icon: 'sleet', alt: 'Light freezing rain' },
+        67: { icon: 'sleet', alt: 'Heavy freezing rain' },
+        71: { icon: 'snow', alt: 'Slight snow fall' },
+        73: { icon: 'snow', alt: 'Moderate snow fall' },
+        75: { icon: 'blizzard', alt: 'Heavy snow fall' },
+        77: { icon: 'hail', alt: 'Snow grains' },
+        80: { icon: isDay ? 'scatterad-showers' : 'scatterad-showers-night', alt: 'Slight rain showers' },
+        81: { icon: isDay ? 'rain-sun' : 'rain-night', alt: 'Moderate rain showers' },
+        82: { icon: 'heavy-rain', alt: 'Violent rain showers' },
+        85: { icon: 'blowing-snow', alt: 'Slight snow showers' },
+        86: { icon: 'blizzard', alt: 'Heavy snow showers' },
+        95: { icon: 'scatterad-thunderstorm', alt: 'Thunderstorm' },
+        96: { icon: 'rain-thunderstorm', alt: 'Thunderstorm with slight hail' },
+        99: { icon: 'sever-thunder', alt: 'Thunderstorm with heavy hail' },
     };
     const { icon, alt } = WEATHER_ICONS[code] ?? { icon: 'cloudy', alt: 'Unknown' };
     return `<img src="assets/weather/${icon}.png" alt="${alt}" title="${alt}" width="${size}" height="${size}"/>`;
@@ -69,10 +69,10 @@ function renderForecast(daily) {
 }
 
 function renderAirConditions(current) {
-    setElementText('real-feel',   current.apparent_temperature);
+    setElementText('real-feel', current.apparent_temperature);
     setElementText('rain-chance', current.precipitation_probability);
-    setElementText('wind-speed',  current.wind_speed_10m);
-    setElementText('uv-index',    current.uv_index);
+    setElementText('wind-speed', current.wind_speed_10m);
+    setElementText('uv-index', current.uv_index);
 }
 
 function renderTable(times, values, unit) {
@@ -105,8 +105,15 @@ function renderChart(times, values, label) {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { beginAtZero: false },
-                x: { grid: { display: false } }
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        maxTicksLimit: 8,
+                        maxRotation: 45,
+                        minRotation: 0
+                    }
+                },
+                y: { beginAtZero: false }
             }
         }
     });
@@ -149,7 +156,7 @@ function initControls() {
     const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
     if (startDate) { startDate.value = weekAgo; startDate.max = today; startDate.addEventListener('change', updateInteractiveView); }
-    if (endDate)   { endDate.value = today;    endDate.max = today;   endDate.addEventListener('change', updateInteractiveView); }
+    if (endDate) { endDate.value = today; endDate.max = today; endDate.addEventListener('change', updateInteractiveView); }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
